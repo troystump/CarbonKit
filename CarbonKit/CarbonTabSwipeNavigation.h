@@ -74,6 +74,17 @@
 - (instancetype)createWithRootViewController:(UIViewController *)viewController tabNames:(NSArray *)names tintColor:(UIColor *)tintColor delegate:(id)delegate;
 
 /**
+ *	This method will create TabSwipeNavigation
+ *	@param viewController UIViewController : parent view controller
+ *	@param names NSArray : name of each tabs
+ *  @param startingTabIndex : the tab index which to initially display from
+ *	@param tintColor UIColor : color of navigation and tabs
+ *	@param delegate id : object where CarbonTabSwipeNavigation will delegate
+ */
+- (instancetype)createWithRootViewController:(UIViewController *)viewController tabNames:(NSArray *)names tintColor:(UIColor *)tintColor startingTabIndex:(NSUInteger)startingTabIndex delegate:(id)delegate;
+
+
+/**
  *	UIColor for tab in normal state
  *	@param color UIColor : color of normal state
  */

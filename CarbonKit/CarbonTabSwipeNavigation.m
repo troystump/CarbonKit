@@ -48,9 +48,23 @@
 
 @implementation CarbonTabSwipeNavigation
 
+@synthesize currentTabIndex = _currentTabIndex;
+
 - (instancetype)createWithRootViewController:(UIViewController *)viewController
 									tabNames:(NSArray *)names
 								   tintColor:(UIColor *)tintColor
+									delegate:(id)delegate {
+	return [self createWithRootViewController:viewController
+									 tabNames:tabNames
+									tintColor:tintColor
+							 startingTabIndex:0
+									 delegate:delegate];
+}
+
+- (instancetype)createWithRootViewController:(UIViewController *)viewController
+									tabNames:(NSArray *)names
+								   tintColor:(UIColor *)tintColor
+							startingTabIndex:(NSUInteger)startingTabIndex
 									delegate:(id)delegate {
 	// init
 	self.delegate = delegate;
@@ -59,7 +73,8 @@
 	tabs = [[NSMutableArray alloc] init];
 	tabNames = [NSMutableArray arrayWithArray:names];
 	viewControllers = [[NSMutableDictionary alloc] init];
-	
+	selectedIndex = startingTabIndex;
+	_currentTabIndex = startingTabIndex;
 	
 	// add self as child to parent
 	[rootViewController addChildViewController:self];

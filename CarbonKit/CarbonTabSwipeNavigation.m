@@ -228,16 +228,19 @@
 	// finish adding page controller as child of self
 	[pageController didMoveToParentViewController:self];
 	
-	// default view controller index
-	tabSwipeView.segmentController.selectedSegmentIndex = 0;
-	
 	// add the segment controller action
 	[tabSwipeView.segmentController addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
 	
 	// cache the tabs
 	for (UIView *tabView in [tabSwipeView.segmentController subviews]) {
-		[tabs addObject:tabView];
+		if (tabView != tabSwipeView.indicator) {
+			[tabs addObject:tabView];
+		}
 	}
+	
+	// default view controller index
+	tabSwipeView.segmentController.selectedSegmentIndex = selectedIndex;
+
 	
 	// first view controller
 	id viewController = [self.delegate tabSwipeNavigation:self viewControllerAtIndex:selectedIndex];
@@ -336,8 +339,8 @@
 	// get tabs width
 	NSUInteger i = 0;
 	CGFloat segmentedWidth = 0;
+	
 	for (UIView *tabView in tabs) {
-		
 		for (UIView *label in tabView.subviews) {
 			if ([label isKindOfClass:[UILabel class]]) {
 				UILabel *myLabel = (UILabel*)label;

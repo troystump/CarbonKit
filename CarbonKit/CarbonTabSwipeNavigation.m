@@ -74,7 +74,6 @@
 	tabNames = [NSMutableArray arrayWithArray:names];
 	viewControllers = [[NSMutableDictionary alloc] init];
 	selectedIndex = startingTabIndex;
-	_currentTabIndex = startingTabIndex;
 	
 	// add self as child to parent
 	[rootViewController addChildViewController:self];

@@ -55,7 +55,7 @@
 								   tintColor:(UIColor *)tintColor
 									delegate:(id)delegate {
 	return [self createWithRootViewController:viewController
-									 tabNames:tabNames
+									 tabNames:names
 									tintColor:tintColor
 							 startingTabIndex:0
 									 delegate:delegate];

@@ -239,28 +239,34 @@
 	
 	// default view controller index
 	tabSwipeView.segmentController.selectedSegmentIndex = selectedIndex;
-
-	
-	// first view controller
-	id viewController = [self.delegate tabSwipeNavigation:self viewControllerAtIndex:selectedIndex];
-	[viewControllers setObject:viewController forKey:[NSNumber numberWithInteger:selectedIndex]];
-	
-	__weak __typeof__(self) weakSelf = self;
-	[pageController setViewControllers:@[viewController]
-							 direction:UIPageViewControllerNavigationDirectionForward
-							  animated:NO
-							completion:^(BOOL finished) {
-								__strong __typeof__(self) strongSelf = weakSelf;
-								// call delegate
-								if ([strongSelf->_delegate respondsToSelector:@selector(tabSwipeNavigation:didMoveAtIndex:)]) {
-									[strongSelf->_delegate tabSwipeNavigation:strongSelf didMoveAtIndex:strongSelf->selectedIndex];
-								}
-							}];
 }
 
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+	
+	if (!pageController.viewControllers.count) {
+		// first view controller
+		id viewController = [self.delegate tabSwipeNavigation:self viewControllerAtIndex:selectedIndex];
+		
+		
+		if (viewController) {
+			[viewControllers setObject:viewController forKey:[NSNumber numberWithInteger:selectedIndex]];
+			
+			__weak __typeof__(self) weakSelf = self;
+			[pageController setViewControllers:@[viewController]
+									 direction:UIPageViewControllerNavigationDirectionForward
+									  animated:NO
+									completion:^(BOOL finished) {
+										__strong __typeof__(self) strongSelf = weakSelf;
+										// call delegate
+										if ([strongSelf->_delegate respondsToSelector:@selector(tabSwipeNavigation:didMoveAtIndex:)]) {
+											[strongSelf->_delegate tabSwipeNavigation:strongSelf didMoveAtIndex:strongSelf->selectedIndex];
+										}
+									}];
+			
+		}
+	}
 	
 	[self fixOffset];
 	

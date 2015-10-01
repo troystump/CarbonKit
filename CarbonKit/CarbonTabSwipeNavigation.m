@@ -165,11 +165,14 @@
 	__weak __typeof__(self) weakSelf = self;
 	isNotDragging = YES;
 	pageController.view.userInteractionEnabled = NO;
+	pageController.dataSource = nil;
+	selectedIndex = index;
 	[pageController setViewControllers:@[viewController]
 							 direction:animateDirection
 							  animated:NO
 							completion:^(BOOL finished) {
 								__strong __typeof__(self) strongSelf = weakSelf;
+								strongSelf->pageController.dataSource = strongSelf;
 								strongSelf->isNotDragging = NO;
 								strongSelf->pageController.view.userInteractionEnabled = YES;
 								strongSelf->selectedIndex = index;
@@ -449,7 +452,7 @@
    previousViewControllers:(NSArray *)previousViewControllers
 	   transitionCompleted:(BOOL)completed {
 	
-	if (!completed)
+	if (!completed || !pageController.dataSource)
 		return;
 	
 	id currentView = [pageViewController.viewControllers objectAtIndex:0];

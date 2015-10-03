@@ -155,7 +155,7 @@
 		[viewControllers setObject:viewController forKey:[NSNumber numberWithInteger:index]];
 	}
 	
-	[viewController.view layoutIfNeeded];
+	//	[viewController.view layoutIfNeeded];
 	
 	UIPageViewControllerNavigationDirection animateDirection
 	= index > selectedIndex
@@ -256,9 +256,15 @@
 		if (viewController) {
 			[viewControllers setObject:viewController forKey:[NSNumber numberWithInteger:selectedIndex]];
 			
+			UIPageViewControllerNavigationDirection animateDirection
+			= selectedIndex > numberOfTabs
+			? UIPageViewControllerNavigationDirectionForward
+			: UIPageViewControllerNavigationDirectionReverse;
+			
+			
 			__weak __typeof__(self) weakSelf = self;
 			[pageController setViewControllers:@[viewController]
-									 direction:UIPageViewControllerNavigationDirectionForward
+									 direction:animateDirection
 									  animated:NO
 									completion:^(BOOL finished) {
 										__strong __typeof__(self) strongSelf = weakSelf;
@@ -313,11 +319,11 @@
 	tabSwipeView.indicatorLeftConst.constant = tab.frame.origin.x;
 	
 	// keep the page controller's width in sync
-	pageController.view.frame = CGRectMake(pageController.view.frame.origin.x, pageController.view.frame.origin.y, self.view.bounds.size.width, pageController.view.frame.size.height);
+	pageController.view.frame = (CGRect) { pageController.view.frame.origin, CGRectGetWidth(self.view.bounds), CGRectGetHeight(pageController.view.bounds) };
 	
 	[self resizeTabs];
 	[self fixOffset];
-	[self.view layoutIfNeeded];
+	//	[self.view layoutIfNeeded];
 }
 
 - (void)fixOffset {
